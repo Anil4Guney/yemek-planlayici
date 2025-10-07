@@ -1255,3 +1255,22 @@ video {
     grid-template-columns: repeat(8, minmax(0, 1fr));
   }
 }
+
+/* Reset / basics */
+* { box-sizing: border-box; }
+body { margin:0; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:#f6f8fb; color:#111; }
+
+/* simple input/button defaults */
+input, textarea, select, button {
+  font-family: inherit;
+  font-size: 14px;
+}
+input, textarea, select {
+  outline: none;
+}
+button { cursor: pointer; }
+
+/* small utility classes */
+.default-button {
+  background:#2b7cff; color:white; border:none; padding:8px 12px; border-radius:8px;
+}
