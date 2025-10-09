@@ -1,21 +1,22 @@
 <template>
   <aside class="sidebar">
-    <div class="nav-group">
-      <button @click="goHome" class="side-btn">Home</button>
-      <button @click="goFavorites" class="side-btn">Favorites</button>
+    <div class="navs">
+      <button class="side-btn" @click="goHome">Home</button>
+      <button class="side-btn" @click="goFavorites">Favorites</button>
     </div>
 
     <hr />
 
-    <div class="random-box">
+    <div class="random">
       <label>Öğün seç</label>
-      <select v-model="type" class="select">
+      <select v-model="selectedType" class="sel">
         <option value="">Tümü</option>
         <option value="sabah">Sabah</option>
         <option value="öğle">Öğle</option>
         <option value="akşam">Akşam</option>
       </select>
-      <button @click="suggest" class="side-btn">🎲 Rastgele Öner</button>
+
+      <button class="side-btn" @click="suggest">🎲 Rastgele Öner</button>
     </div>
 
     <hr />
@@ -31,7 +32,7 @@ import { useRouter } from 'vue-router'
 
 const store = useStore()
 const router = useRouter()
-const type = ref('')
+const selectedType = ref('')
 
 function goHome() { router.push('/home') }
 function goFavorites() { router.push('/favorites') }
@@ -42,14 +43,14 @@ function suggest() {
     store.commit('setLoginModal', true)
     return
   }
-  let meals = store.getters.getMealsByUser(user.email)
-  if (type.value) meals = meals.filter(m => m.mealType === type.value)
-  if (!meals.length) {
-    alert('Bu kriterle yemek bulunamadı.')
+  let list = store.getters.getMealsByUser(user.email)
+  if (selectedType.value) list = list.filter(m => m.mealType === selectedType.value)
+  if (!list.length) {
+    alert('Bu kriterde yemek yok.')
     return
   }
-  const random = meals[Math.floor(Math.random() * meals.length)]
-  store.commit('setSuggestedMeal', random)
+  const item = list[Math.floor(Math.random() * list.length)]
+  store.commit('setSuggestedMeal', item)
   router.push('/home')
 }
 
@@ -66,18 +67,15 @@ function openAddMeal() {
 
 <style scoped>
 .sidebar {
-  width: 230px;
-  background: #f8f9fb;
-  border-right: 1px solid #e6e6e6;
-  padding: 16px;
-  box-sizing: border-box;
+  width:240px;
+  background:#fafafa;
+  border-right:1px solid #eee;
+  padding:16px;
+  box-sizing:border-box;
+  min-height: calc(100vh - 64px);
 }
-.nav-group { display:flex; flex-direction:column; gap:8px; margin-bottom:8px; }
-.side-btn {
-  background:#fff; border:1px solid #ddd; padding:8px; border-radius:8px; cursor:pointer; text-align:left;
-}
-.side-btn.add { background:#ffd95c; font-weight:600; margin-top:10px; }
-.random-box { margin-top:12px; display:flex; flex-direction:column; gap:8px; }
-.select { padding:8px; border-radius:6px; border:1px solid #ddd; }
-hr { margin:12px 0; border: none; border-top:1px solid #eee; }
+.side-btn { display:block; width:100%; margin-bottom:8px; padding:8px; border-radius:8px; border:1px solid #e5e7eb; background:#fff; cursor:pointer; text-align:left; }
+.side-btn.add { background:#ffd95c; font-weight:600; }
+.sel { width:100%; padding:8px; border-radius:6px; border:1px solid #ddd; margin-top:6px; }
+hr { border:none; border-top:1px solid #eee; margin:12px 0; }
 </style>

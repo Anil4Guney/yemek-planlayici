@@ -1,12 +1,26 @@
 import { createStore } from 'vuex'
 
+const STORAGE_KEYS = {
+  USERS: 'meal_users',
+  LOGGED: 'meal_logged',
+  MEALS: 'meal_meals'
+}
+
+function load(key, fallback) {
+  try {
+    return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback))
+  } catch {
+    return fallback
+  }
+}
+
 const store = createStore({
   state: {
-    users: JSON.parse(localStorage.getItem('users') || '[]'),
-    loggedInUser: JSON.parse(localStorage.getItem('loggedInUser') || 'null'),
-    meals: JSON.parse(localStorage.getItem('meals') || '[]'),
+    users: load(STORAGE_KEYS.USERS, []),
+    loggedInUser: load(STORAGE_KEYS.LOGGED, null),
+    meals: load(STORAGE_KEYS.MEALS, []),
 
-    // UI
+    // UI modals & search & suggestion
     showLoginModal: false,
     showRegisterModal: false,
     showAddMealModal: false,
@@ -20,41 +34,57 @@ const store = createStore({
       const exists = state.users.find(u => u.email === user.email)
       if (exists) throw new Error('Bu email zaten kayıtlı.')
       state.users.push(user)
-      localStorage.setItem('users', JSON.stringify(state.users))
+      localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(state.users))
+
+      // auto-login after register
+      state.loggedInUser = user
+      localStorage.setItem(STORAGE_KEYS.LOGGED, JSON.stringify(user))
     },
 
     loginUser(state, { email, password }) {
       const user = state.users.find(u => u.email === email && u.password === password)
       if (!user) throw new Error('Email veya şifre hatalı.')
       state.loggedInUser = user
-      localStorage.setItem('loggedInUser', JSON.stringify(user))
+      localStorage.setItem(STORAGE_KEYS.LOGGED, JSON.stringify(user))
     },
 
     logoutUser(state) {
       state.loggedInUser = null
-      localStorage.removeItem('loggedInUser')
+      localStorage.removeItem(STORAGE_KEYS.LOGGED)
+      // Also clear meals if you want to clear stored meals on logout
+      state.meals = []
+      localStorage.setItem(STORAGE_KEYS.MEALS, JSON.stringify(state.meals))
     },
 
     // Meals
     addMeal(state, meal) {
       state.meals.push(meal)
-      localStorage.setItem('meals', JSON.stringify(state.meals))
+      localStorage.setItem(STORAGE_KEYS.MEALS, JSON.stringify(state.meals))
+    },
+
+    removeMeal(state, mealId) {
+      state.meals = state.meals.filter(m => m.id !== mealId)
+      localStorage.setItem(STORAGE_KEYS.MEALS, JSON.stringify(state.meals))
     },
 
     toggleFavorite(state, mealId) {
-      const meal = state.meals.find(m => m.id === mealId)
-      if (meal) {
-        meal.isFavorite = !meal.isFavorite
-        localStorage.setItem('meals', JSON.stringify(state.meals))
+      const m = state.meals.find(x => x.id === mealId)
+      if (m) {
+        m.isFavorite = !m.isFavorite
+        localStorage.setItem(STORAGE_KEYS.MEALS, JSON.stringify(state.meals))
       }
     },
 
-    // UI modals
+    clearMeals(state) {
+      state.meals = []
+      localStorage.setItem(STORAGE_KEYS.MEALS, JSON.stringify(state.meals))
+    },
+
+    // UI
     setLoginModal(state, v) { state.showLoginModal = !!v },
     setRegisterModal(state, v) { state.showRegisterModal = !!v },
     setAddMealModal(state, v) { state.showAddMealModal = !!v },
 
-    // search & suggestion
     setSearchQuery(state, q) { state.searchQuery = q || '' },
     setSuggestedMeal(state, meal) { state.suggestedMeal = meal || null }
   },
@@ -62,8 +92,8 @@ const store = createStore({
   getters: {
     isAuthenticated: state => !!state.loggedInUser,
     currentUser: state => state.loggedInUser,
-    getMealsByUser: state => email => state.meals.filter(m => m.userEmail === email),
-    getFavoritesByUser: state => email => state.meals.filter(m => m.userEmail === email && m.isFavorite),
+    getMealsByUser: state => (email) => state.meals.filter(m => m.userEmail === email),
+    getFavoritesByUser: state => (email) => state.meals.filter(m => m.userEmail === email && m.isFavorite),
 
     // UI getters
     loginModalVisible: state => state.showLoginModal,

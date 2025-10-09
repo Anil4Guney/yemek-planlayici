@@ -1,21 +1,21 @@
 <template>
   <header class="navbar">
-    <div class="nav-left">
-      <!-- placeholder for logo -->
+    <div class="left">
+      <div class="logo">Meal Planner</div>
     </div>
 
-    <div class="nav-center">
-      <input 
-        v-model="q"
-        @input="onSearch"
-        class="search-input"
-        placeholder="Yemek ara... (isim veya tarif)" />
+    <div class="center">
+      <input v-model="q" @input="onSearch" class="search" placeholder="Yemek ara (isim veya tarif)" />
     </div>
 
-    <div class="nav-right">
-      <button v-if="!isAuth" @click="openLogin" class="btn">Login</button>
+    <div class="right">
       <button v-if="!isAuth" @click="openRegister" class="btn">Register</button>
-      <button v-if="isAuth" @click="logout" class="btn logout">Logout</button>
+      <button v-if="!isAuth" @click="openLogin" class="btn">Login</button>
+
+      <div v-if="isAuth" class="auth-area">
+        <button @click="goProfile" class="btn">Profile</button>
+        <button @click="logout" class="btn logout">Logout</button>
+      </div>
     </div>
   </header>
 </template>
@@ -38,36 +38,32 @@ function onSearch() {
 function openLogin() { store.commit('setLoginModal', true) }
 function openRegister() { store.commit('setRegisterModal', true) }
 
+function goProfile() { router.push('/profile') }
+
 function logout() {
   store.commit('logoutUser')
-  router.push('/home')
+  // ensure modals closed
+  store.commit('setLoginModal', false)
+  store.commit('setRegisterModal', false)
+  store.commit('setAddMealModal', false)
+  // reload to reset UI state
+  window.location.reload()
 }
 </script>
 
 <style scoped>
 .navbar {
-  height:56px;
+  height:64px;
   display:flex;
   align-items:center;
   justify-content:space-between;
   padding:0 18px;
-  background:#fafafa;
-  border-bottom:1px solid #eee;
+  background: #ffffff;
+  border-bottom: 1px solid #e6e6e6;
 }
-.search-input {
-  width:400px;
-  max-width:60vw;
-  padding:8px 12px;
-  border-radius:8px;
-  border:1px solid #ddd;
-}
-.nav-right { display:flex; align-items:center; gap:8px; }
-.btn {
-  padding:6px 10px;
-  border-radius:8px;
-  background:#fff;
-  border:1px solid #d0d0d0;
-  cursor:pointer;
-}
-.btn.logout { background:#ff6b6b; color:#fff; border:none; }
+.logo { font-weight:700; color:#1f2937; }
+.search { width:420px; max-width:50vw; padding:8px 10px; border-radius:8px; border:1px solid #ddd; }
+.btn { margin-left:8px; padding:6px 10px; border-radius:8px; border:1px solid #d1d5db; background:#fff; cursor:pointer; }
+.btn.logout { background:#ef4444; color:#fff; border:none; }
+.auth-area { display:flex; align-items:center; gap:8px; }
 </style>
