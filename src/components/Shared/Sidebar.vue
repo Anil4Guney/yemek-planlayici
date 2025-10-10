@@ -21,7 +21,7 @@
 
     <hr />
 
-    <button class="side-btn add" @click="openAddMeal">➕ Yemek Ekle</button>
+    <button class="side-btn add" @click="openAddMeal">➕︎ Yemek Ekle</button>
   </aside>
 </template>
 
