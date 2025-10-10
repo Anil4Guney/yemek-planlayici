@@ -92,7 +92,7 @@ function onSubmit() {
     carbs: carbs.value,
     fat: fat.value,
     calories: calories.value,
-    isFavorite: false, // kaldırdık ama default false kalabilir
+    isFavorite: false, 
     userEmail: user.email
   }
   store.commit('addMeal', meal)

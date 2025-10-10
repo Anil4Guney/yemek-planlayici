@@ -5,7 +5,7 @@
     </div>
 
     <div class="center">
-      <input v-model="q" @input="onSearch" class="search" placeholder="Yemek ara (isim veya tarif)" />
+      <input v-model="q" @input="onSearch" class="search" placeholder="Yemek ara..." />
     </div>
 
     <div class="right">
