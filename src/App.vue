@@ -35,6 +35,7 @@ const addMealModalVisible = computed(() => store.getters.addMealModalVisible)
 
 <style>
 /* layout */
+/*
 .app-layout {
   display: flex;
   min-height: calc(100vh - 64px);
@@ -50,4 +51,5 @@ const addMealModalVisible = computed(() => store.getters.addMealModalVisible)
   font-size: 28px;
   color: #1f2937;
 }
+  */
 </style>

@@ -52,6 +52,7 @@ function logout() {
 </script>
 
 <style scoped>
+/*
 .navbar {
   height:64px;
   display:flex;
@@ -66,4 +67,5 @@ function logout() {
 .btn { margin-left:8px; padding:6px 10px; border-radius:8px; border:1px solid #d1d5db; background:#fff; cursor:pointer; }
 .btn.logout { background:#ef4444; color:#fff; border:none; }
 .auth-area { display:flex; align-items:center; gap:8px; }
+*/
 </style>

@@ -66,6 +66,7 @@ function openAddMeal() {
 </script>
 
 <style scoped>
+/*
 .sidebar {
   width:240px;
   background:#fafafa;
@@ -78,4 +79,5 @@ function openAddMeal() {
 .side-btn.add { background:#ffd95c; font-weight:600; }
 .sel { width:100%; padding:8px; border-radius:6px; border:1px solid #ddd; margin-top:6px; }
 hr { border:none; border-top:1px solid #eee; margin:12px 0; }
+*/
 </style>

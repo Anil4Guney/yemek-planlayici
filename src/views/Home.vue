@@ -53,12 +53,15 @@ function deleteMeal(id) {
 </script>
 
 <style scoped>
+/*
+
 .home {
   padding: 24px;
 }
-
+*/
 
 /* 🔘 Filtre butonları */
+/*
 .meal-filters {
   display: flex;
   gap: 8px;
@@ -85,12 +88,15 @@ function deleteMeal(id) {
   color: white;
   border-color: #2563eb;
 }
+  */
 
 /* 🍽 Yemek kartları alanı */
+/*
 .meal-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 16px;
   margin-bottom: 24px;
 }
+  */
 </style>
