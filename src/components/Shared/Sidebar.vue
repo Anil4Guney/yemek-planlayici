@@ -65,19 +65,4 @@ function openAddMeal() {
 }
 </script>
 
-<style scoped>
-/*
-.sidebar {
-  width:240px;
-  background:#fafafa;
-  border-right:1px solid #eee;
-  padding:16px;
-  box-sizing:border-box;
-  min-height: calc(100vh - 64px);
-}
-.side-btn { display:block; width:100%; margin-bottom:8px; padding:8px; border-radius:8px; border:1px solid #e5e7eb; background:#fff; cursor:pointer; text-align:left; }
-.side-btn.add { background:#ffd95c; font-weight:600; }
-.sel { width:100%; padding:8px; border-radius:6px; border:1px solid #ddd; margin-top:6px; }
-hr { border:none; border-top:1px solid #eee; margin:12px 0; }
-*/
-</style>
+

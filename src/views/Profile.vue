@@ -32,11 +32,3 @@ const totalProtein = computed(() => userMeals.value.reduce((s,m)=> s + (m.protei
 const totalFat = computed(() => userMeals.value.reduce((s,m)=> s + (m.fat||0), 0))
 const totalCarb = computed(() => userMeals.value.reduce((s,m)=> s + (m.carbs||0), 0))
 </script>
-
-<style scoped>
-/*
-.profile { max-width:900px; margin:24px auto; padding:12px; }
-.card { background:#fff; border:1px solid #e6e6e6; padding:16px; border-radius:10px; }
-.no { color:#6b7280; text-align:center; margin-top:20px; }
-*/
-</style>

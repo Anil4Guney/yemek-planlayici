@@ -43,23 +43,3 @@ const filtered = computed(() => {
 })
 </script>
 
-<style scoped>
-/*
-.filters { display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap; }
-.filters button { padding:6px 10px; border-radius:8px; border:1px solid #e5e7eb; background:#fff; cursor:pointer; }
-.filters button.active { background:#2563eb; color:#fff; }
-.grid {
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap:12px;
-}
-.grid-item { height:220px; }
-@media (max-width:1000px) {
-  .grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width:600px) {
-  .grid { grid-template-columns: 1fr; }
-}
-.empty { color:#6b7280; text-align:center; padding:24px 0; }
-*/
-</style>

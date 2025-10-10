@@ -40,11 +40,28 @@ const meals = computed(() => {
   return user ? store.getters.getMealsByUser(user.email) : []
 })
 
-// Filtreleme (öğün türüne göre)
+const search = computed(() => store.state.searchQuery || '')
+
 const filteredMeals = computed(() => {
-  if (selectedType.value === 'Tümü') return meals.value
-  return meals.value.filter(meal => meal.mealType === selectedType.value.toLowerCase())
+  let result = meals.value
+
+  // Filtreleme
+  if (selectedType.value !== 'Tümü') {
+    result = result.filter(meal => meal.mealType === selectedType.value.toLowerCase())
+  }
+
+  // Arama filtrelemesi
+  if (search.value.trim()) {
+    const q = search.value.toLowerCase()
+    result = result.filter(m =>
+      (m.name || '').toLowerCase().includes(q) ||
+      (m.recipe || '').toLowerCase().includes(q)
+    )
+  }
+
+  return result
 })
+
 
 // Vuex mutation
 function deleteMeal(id) {
@@ -52,51 +69,3 @@ function deleteMeal(id) {
 }
 </script>
 
-<style scoped>
-/*
-
-.home {
-  padding: 24px;
-}
-*/
-
-/* 🔘 Filtre butonları */
-/*
-.meal-filters {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 20px;
-}
-
-.meal-filters button {
-  background: #f3f4f6;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  padding: 6px 12px;
-  cursor: pointer;
-  font-weight: 500;
-  color: #374151;
-  transition: all 0.2s;
-}
-
-.meal-filters button:hover {
-  background: #e5e7eb;
-}
-
-.meal-filters button.active {
-  background: #2563eb;
-  color: white;
-  border-color: #2563eb;
-}
-  */
-
-/* 🍽 Yemek kartları alanı */
-/*
-.meal-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
-  margin-bottom: 24px;
-}
-  */
-</style>

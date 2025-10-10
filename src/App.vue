@@ -33,23 +33,3 @@ const registerModalVisible = computed(() => store.getters.registerModalVisible)
 const addMealModalVisible = computed(() => store.getters.addMealModalVisible)
 </script>
 
-<style>
-/* layout */
-/*
-.app-layout {
-  display: flex;
-  min-height: calc(100vh - 64px);
-}
-.main-content {
-  flex: 1;
-  padding: 20px;
-  background: #f5f7fb;
-  min-height: calc(100vh - 64px);
-}
-.app-heading {
-  margin: 0 0 16px 0;
-  font-size: 28px;
-  color: #1f2937;
-}
-  */
-</style>

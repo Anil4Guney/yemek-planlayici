@@ -51,21 +51,3 @@ function logout() {
 }
 </script>
 
-<style scoped>
-/*
-.navbar {
-  height:64px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 18px;
-  background: #ffffff;
-  border-bottom: 1px solid #e6e6e6;
-}
-.logo { font-weight:700; color:#1f2937; }
-.search { width:420px; max-width:50vw; padding:8px 10px; border-radius:8px; border:1px solid #ddd; }
-.btn { margin-left:8px; padding:6px 10px; border-radius:8px; border:1px solid #d1d5db; background:#fff; cursor:pointer; }
-.btn.logout { background:#ef4444; color:#fff; border:none; }
-.auth-area { display:flex; align-items:center; gap:8px; }
-*/
-</style>

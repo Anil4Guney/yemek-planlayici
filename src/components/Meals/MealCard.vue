@@ -35,12 +35,3 @@ function del() {
 }
 </script>
 
-<style scoped>
-/*
-.card { background:#fff; border:1px solid #e6e6e6; border-radius:10px; padding:12px; height:220px; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between; }
-.card-top { display:flex; justify-content:space-between; align-items:center; }
-.card-actions { display:flex; gap:8px; }
-.fav, .del { background:none; border:none; cursor:pointer; font-size:16px; }
-.card-body p { margin:4px 0; font-size:13px; color:#374151; }
-*/
-</style>
