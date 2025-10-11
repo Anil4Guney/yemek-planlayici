@@ -38,7 +38,7 @@ function openLogin() { store.commit('setRegisterModal', false); store.commit('se
 function handleRegister() {
   try {
     store.commit('registerUser', { email: email.value, password: password.value })
-    // registerUser auto-logins (in store mutation) — we just close and go home
+
     store.commit('setRegisterModal', false)
     router.push('/home')
     email.value = ''; password.value = ''; error.value = ''

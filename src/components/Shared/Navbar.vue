@@ -42,11 +42,9 @@ function goProfile() { router.push('/profile') }
 
 function logout() {
   store.commit('logoutUser')
-  // ensure modals closed
   store.commit('setLoginModal', false)
   store.commit('setRegisterModal', false)
   store.commit('setAddMealModal', false)
-  // reload to reset UI state
   window.location.reload()
 }
 </script>
