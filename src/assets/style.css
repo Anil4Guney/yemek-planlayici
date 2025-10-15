@@ -1,6 +1,4 @@
-/* =====================================================
-   GLOBAL RESET & BASE STYLES
-   ===================================================== */
+/* GLOBAL RESET BASE STYLES */
 * {
   box-sizing: border-box;
 }
@@ -41,9 +39,7 @@ input:focus, textarea:focus, select:focus {
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
 }
 
-/* =====================================================
-   NAVBAR
-   ===================================================== */
+/*   NAVBAR  */
 .navbar {
   height: 64px;
   display: flex;
@@ -95,9 +91,7 @@ input:focus, textarea:focus, select:focus {
   gap: 8px;
 }
 
-/* =====================================================
-   SIDEBAR
-   ===================================================== */
+/*  SIDEBAR  */
 .sidebar {
   width: 240px;
   background: #ffffff;
@@ -136,9 +130,7 @@ input:focus, textarea:focus, select:focus {
   margin-top: 6px;
 }
 
-/* =====================================================
-   HOME & FAVORITES (liste ve filtreler)
-   ===================================================== */
+/* HOME  FAVORITES  */
 .meal-filters {
   display: flex;
   gap: 8px;
@@ -184,9 +176,7 @@ input:focus, textarea:focus, select:focus {
   padding: 24px 0;
 }
 
-/* =====================================================
-   MEAL CARD
-   ===================================================== */
+/*   MEAL CARD  */
 .card {
   background: #fff;
   border: 1px solid #e6e6e6;
@@ -232,9 +222,7 @@ input:focus, textarea:focus, select:focus {
   color: #374151;
 }
 
-/* =====================================================
-   ADD MEAL MODAL
-   ===================================================== */
+/*  ADD MEAL MODAL */
 .overlay {
   position: fixed;
   inset: 0;
@@ -296,9 +284,7 @@ label {
   font-weight: 500;
 }
 
-/* =====================================================
-   PROFILE PAGE
-   ===================================================== */
+/* PROFILE PAGE  */
 .profile {
   max-width: 900px;
   margin: 24px auto;
@@ -331,9 +317,7 @@ label {
   margin-top: 20px;
 }
 
-/* =====================================================
-   LAYOUT
-   ===================================================== */
+/* LAYOUT  */
 .app-layout {
   display: flex;
   min-height: calc(100vh - 64px);
