@@ -1,4 +1,6 @@
-/*  GLOBAL RESET & BASE STYLES */
+/* =====================================================
+   GLOBAL RESET & BASE STYLES
+   ===================================================== */
 * {
   box-sizing: border-box;
 }
@@ -7,7 +9,7 @@ html, body {
   margin: 0;
   padding: 0;
   font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background-color: #f5f7fb;
+  background-color: #f1f5f9;
   color: #111827;
 }
 
@@ -21,6 +23,7 @@ button {
   font-family: inherit;
   border: none;
   background: none;
+  transition: 0.2s;
 }
 
 input, textarea, select {
@@ -28,30 +31,33 @@ input, textarea, select {
   font-size: 14px;
   outline: none;
   border-radius: 6px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #d1d5db;
   padding: 8px;
-  transition: border-color 0.2s;
+  background: #fff;
 }
 
 input:focus, textarea:focus, select:focus {
-  border-color: #2563eb;
+  border-color: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
 }
 
-/* NAVBAR (Navbar.vue)  */
+/* =====================================================
+   NAVBAR
+   ===================================================== */
 .navbar {
   height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 18px;
-  background: #ffffff;
-  border-bottom: 1px solid #e6e6e6;
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
 }
 
 .navbar .logo {
   font-weight: 700;
   font-size: 20px;
-  color: #1f2937;
 }
 
 .navbar .search {
@@ -59,18 +65,19 @@ input:focus, textarea:focus, select:focus {
   max-width: 50vw;
   padding: 8px 10px;
   border-radius: 8px;
-  border: 1px solid #ddd;
-  background: #fafafa;
+  border: none;
+  background: #fff;
+  color: #111;
 }
 
 .navbar .btn {
   margin-left: 8px;
   padding: 6px 10px;
   border-radius: 8px;
-  border: 1px solid #d1d5db;
+  border: none;
   background: #fff;
-  cursor: pointer;
-  transition: 0.2s;
+  color: #111;
+  font-weight: 500;
 }
 
 .navbar .btn:hover {
@@ -80,7 +87,6 @@ input:focus, textarea:focus, select:focus {
 .navbar .btn.logout {
   background: #ef4444;
   color: #fff;
-  border: none;
 }
 
 .navbar .auth-area {
@@ -89,35 +95,36 @@ input:focus, textarea:focus, select:focus {
   gap: 8px;
 }
 
-/*  SIDEBAR (Sidebar.vue)  */
+/* =====================================================
+   SIDEBAR
+   ===================================================== */
 .sidebar {
   width: 240px;
-  background: #fafafa;
-  border-right: 1px solid #eee;
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
   padding: 16px;
-  box-sizing: border-box;
   min-height: calc(100vh - 64px);
+  box-shadow: inset -1px 0 0 rgba(0,0,0,0.05);
 }
 
 .side-btn {
   display: block;
   width: 100%;
   margin-bottom: 8px;
-  padding: 8px;
+  padding: 10px;
   border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  background: #fff;
-  cursor: pointer;
-  text-align: left;
-  transition: all 0.2s;
+  background: #f3f4f6;
+  color: #111;
+  font-weight: 500;
 }
 
 .side-btn:hover {
-  background: #f3f4f6;
+  background: #e2e8f0;
 }
 
 .side-btn.add {
-  background: #ffd95c;
+  background: linear-gradient(90deg, #f97316, #ea580c);
+  color: white;
   font-weight: 600;
 }
 
@@ -125,17 +132,13 @@ input:focus, textarea:focus, select:focus {
   width: 100%;
   padding: 8px;
   border-radius: 6px;
-  border: 1px solid #ddd;
+  border: 1px solid #d1d5db;
   margin-top: 6px;
 }
 
-hr {
-  border: none;
-  border-top: 1px solid #eee;
-  margin: 12px 0;
-}
-
-/*  HOME  FAVORITES PAGE (Home.vue, Favorites.vue)  */
+/* =====================================================
+   HOME & FAVORITES (liste ve filtreler)
+   ===================================================== */
 .meal-filters {
   display: flex;
   gap: 8px;
@@ -144,20 +147,18 @@ hr {
 }
 
 .meal-filters button {
-  background: #f3f4f6;
-  border: 1px solid #d1d5db;
+  background: #e2e8f0;
+  border: none;
   border-radius: 8px;
   padding: 6px 12px;
   cursor: pointer;
   font-weight: 500;
-  color: #374151;
-  transition: all 0.2s;
+  color: #111827;
 }
 
 .meal-filters button.active {
-  background: #2563eb;
+  background: #22c55e;
   color: white;
-  border-color: #2563eb;
 }
 
 .meal-list, .grid {
@@ -171,15 +172,10 @@ hr {
 }
 
 @media (max-width: 1000px) {
-  .meal-list, .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .meal-list, .grid { grid-template-columns: repeat(2, 1fr); }
 }
-
 @media (max-width: 600px) {
-  .meal-list, .grid {
-    grid-template-columns: 1fr;
-  }
+  .meal-list, .grid { grid-template-columns: 1fr; }
 }
 
 .empty {
@@ -188,23 +184,25 @@ hr {
   padding: 24px 0;
 }
 
-/*  MEAL CARD (MealCard.vue)    */
+/* =====================================================
+   MEAL CARD
+   ===================================================== */
 .card {
   background: #fff;
   border: 1px solid #e6e6e6;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 12px;
   height: 220px;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.05);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
 }
 
 .card-top {
@@ -218,11 +216,14 @@ hr {
   gap: 8px;
 }
 
-.fav, .del {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
+.fav {
+  color: #f97316;
+  font-size: 18px;
+}
+
+.del {
+  color: #ef4444;
+  font-size: 18px;
 }
 
 .card-body p {
@@ -231,7 +232,9 @@ hr {
   color: #374151;
 }
 
-/*  ADD MEAL MODAL (AddMealModal.vue)  */
+/* =====================================================
+   ADD MEAL MODAL
+   ===================================================== */
 .overlay {
   position: fixed;
   inset: 0;
@@ -245,47 +248,24 @@ hr {
 .modal {
   width: 560px;
   max-width: 94%;
-  background: #fff;
+  background: #ffffff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
 .modal h3 {
-  margin-top: 0;
-  margin-bottom: 10px;
+  margin: 0 0 10px 0;
   font-size: 20px;
   font-weight: 600;
   color: #111827;
 }
 
-.modal label {
+label {
   display: block;
   margin-top: 10px;
   font-weight: 600;
   color: #374151;
-}
-
-.modal input,
-.modal textarea,
-.modal select {
-  font-family: inherit;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  background: #fff;
-  padding: 8px 10px;
-  font-size: 14px;
-  width: 100%;
-  box-shadow: none;
-  transition: all 0.2s;
-}
-
-.modal input:focus,
-.modal textarea:focus,
-.modal select:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-  outline: none;
 }
 
 .macros {
@@ -293,11 +273,6 @@ hr {
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
   margin-top: 8px;
-  align-items: end;
-}
-
-.macro input[disabled] {
-  background: #f3f6ff;
 }
 
 .actions {
@@ -307,39 +282,23 @@ hr {
 }
 
 .primary {
-  background: #2563eb;
+  background: linear-gradient(90deg, #22c55e, #16a34a);
   color: white;
-  border: none;
   padding: 8px 12px;
   border-radius: 8px;
   font-weight: 500;
-  transition: 0.2s;
-}
-
-.primary:hover {
-  background: #1e40af;
 }
 
 .secondary {
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
+  background: #e2e8f0;
   padding: 8px 12px;
   border-radius: 8px;
-  transition: 0.2s;
+  font-weight: 500;
 }
 
-.secondary:hover {
-  background: #e5e7eb;
-}
-
-/*  LOGIN  REGISTER MODALS */
-.error {
-  color: #e11d48;
-  margin-top: 8px;
-  font-size: 14px;
-}
-
-/* PROFILE PAGE (Profile.vue) */
+/* =====================================================
+   PROFILE PAGE
+   ===================================================== */
 .profile {
   max-width: 900px;
   margin: 24px auto;
@@ -347,17 +306,11 @@ hr {
 }
 
 .profile .card {
-  background: #fff;
-  border: 1px solid #e6e6e6;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;            
-  width: 100%;
-  height: auto;           
-  box-sizing: border-box;
 }
 
 .profile .card p {
@@ -378,8 +331,9 @@ hr {
   margin-top: 20px;
 }
 
-
-/* LAYOUT (App.vue) */
+/* =====================================================
+   LAYOUT
+   ===================================================== */
 .app-layout {
   display: flex;
   min-height: calc(100vh - 64px);
@@ -388,8 +342,7 @@ hr {
 .main-content {
   flex: 1;
   padding: 20px;
-  background: #f5f7fb;
-  min-height: calc(100vh - 64px);
+  background: #f1f5f9;
 }
 
 .app-heading {
