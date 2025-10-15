@@ -20,7 +20,6 @@ const store = createStore({
     loggedInUser: load(STORAGE_KEYS.LOGGED, null),
     meals: load(STORAGE_KEYS.MEALS, []),
 
-    // UI modals & search & suggestion
     showLoginModal: false,
     showRegisterModal: false,
     showAddMealModal: false,
@@ -29,14 +28,12 @@ const store = createStore({
   },
 
   mutations: {
-    // Auth
     registerUser(state, user) {
       const exists = state.users.find(u => u.email === user.email)
       if (exists) throw new Error('Bu email zaten kayıtlı.')
       state.users.push(user)
       localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(state.users))
 
-      // auto-login after register
       state.loggedInUser = user
       localStorage.setItem(STORAGE_KEYS.LOGGED, JSON.stringify(user))
     },
@@ -51,12 +48,10 @@ const store = createStore({
     logoutUser(state) {
       state.loggedInUser = null
       localStorage.removeItem(STORAGE_KEYS.LOGGED)
-      // Also clear meals if you want to clear stored meals on logout
       state.meals = []
       localStorage.setItem(STORAGE_KEYS.MEALS, JSON.stringify(state.meals))
     },
 
-    // Meals
     addMeal(state, meal) {
       state.meals.push(meal)
       localStorage.setItem(STORAGE_KEYS.MEALS, JSON.stringify(state.meals))
@@ -80,7 +75,6 @@ const store = createStore({
       localStorage.setItem(STORAGE_KEYS.MEALS, JSON.stringify(state.meals))
     },
 
-    // UI
     setLoginModal(state, v) { state.showLoginModal = !!v },
     setRegisterModal(state, v) { state.showRegisterModal = !!v },
     setAddMealModal(state, v) { state.showAddMealModal = !!v },
@@ -95,7 +89,6 @@ const store = createStore({
     getMealsByUser: state => (email) => state.meals.filter(m => m.userEmail === email),
     getFavoritesByUser: state => (email) => state.meals.filter(m => m.userEmail === email && m.isFavorite),
 
-    // UI getters
     loginModalVisible: state => state.showLoginModal,
     registerModalVisible: state => state.showRegisterModal,
     addMealModalVisible: state => state.showAddMealModal,

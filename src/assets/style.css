@@ -1,5 +1,4 @@
-/* GLOBAL RESET BASE STYLES */
-* {
+*{
   box-sizing: border-box;
 }
 
@@ -348,24 +347,48 @@ input:focus, textarea:focus, select:focus {
   padding: 12px;
 }
 
+/* Profil kartı */
 .profile .card {
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+
+  /* ✅ taşmayı önler */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
 }
 
+/* Her satır ayrı ve daha düzenli görünsün */
 .profile .card p {
   margin: 0;
-  padding: 6px 0;
+  padding: 8px 0;
   font-size: 15px;
   color: #374151;
   border-bottom: 1px solid #f3f4f6;
+
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .profile .card p:last-child {
   border-bottom: none;
+}
+
+.profile h2 {
+  text-align: left;
+  color: #14532d;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
 }
 
 .no {

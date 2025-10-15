@@ -18,7 +18,6 @@ const router = createRouter({
   routes
 })
 
-// middleware helper
 function nextFactory(context, middleware, index) {
   const subsequent = middleware[index]
   if (!subsequent) return context.next
