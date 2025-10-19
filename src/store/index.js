@@ -1,25 +1,16 @@
 import { createStore } from 'vuex'
-
-const STORAGE_KEYS = {
-  USERS: 'meal_users',
-  LOGGED: 'meal_logged',
-  MEALS: 'meal_meals'
-}
-
-function load(key, fallback) {
-  try {
-    return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback))
-  } catch {
-    return fallback
-  }
-}
+import { db, auth } from '../firebase'
+import { 
+  collection, addDoc, getDocs, query, where, deleteDoc, doc, updateDoc 
+} from 'firebase/firestore'
+import { 
+  createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut 
+} from 'firebase/auth'
 
 const store = createStore({
   state: {
-    users: load(STORAGE_KEYS.USERS, []),
-    loggedInUser: load(STORAGE_KEYS.LOGGED, null),
-    meals: load(STORAGE_KEYS.MEALS, []),
-
+    loggedInUser: JSON.parse(localStorage.getItem('meal_logged')) || null,
+    meals: [],
     showLoginModal: false,
     showRegisterModal: false,
     showAddMealModal: false,
@@ -28,59 +19,84 @@ const store = createStore({
   },
 
   mutations: {
-    registerUser(state, user) {
-      const exists = state.users.find(u => u.email === user.email)
-      if (exists) throw new Error('Bu email zaten kayıtlı.')
-      state.users.push(user)
-      localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(state.users))
-
+    setUser(state, user) {
       state.loggedInUser = user
-      localStorage.setItem(STORAGE_KEYS.LOGGED, JSON.stringify(user))
+      localStorage.setItem('meal_logged', JSON.stringify(user))
     },
-
-    loginUser(state, { email, password }) {
-      const user = state.users.find(u => u.email === email && u.password === password)
-      if (!user) throw new Error('Email veya şifre hatalı.')
-      state.loggedInUser = user
-      localStorage.setItem(STORAGE_KEYS.LOGGED, JSON.stringify(user))
-    },
-
     logoutUser(state) {
       state.loggedInUser = null
-      localStorage.removeItem(STORAGE_KEYS.LOGGED)
+      localStorage.removeItem('meal_logged')
       state.meals = []
-      localStorage.setItem(STORAGE_KEYS.MEALS, JSON.stringify(state.meals))
     },
-
-    addMeal(state, meal) {
-      state.meals.push(meal)
-      localStorage.setItem(STORAGE_KEYS.MEALS, JSON.stringify(state.meals))
+    setMeals(state, meals) {
+      state.meals = meals
     },
-
-    removeMeal(state, mealId) {
-      state.meals = state.meals.filter(m => m.id !== mealId)
-      localStorage.setItem(STORAGE_KEYS.MEALS, JSON.stringify(state.meals))
-    },
-
-    toggleFavorite(state, mealId) {
-      const m = state.meals.find(x => x.id === mealId)
-      if (m) {
-        m.isFavorite = !m.isFavorite
-        localStorage.setItem(STORAGE_KEYS.MEALS, JSON.stringify(state.meals))
-      }
-    },
-
-    clearMeals(state) {
-      state.meals = []
-      localStorage.setItem(STORAGE_KEYS.MEALS, JSON.stringify(state.meals))
-    },
-
     setLoginModal(state, v) { state.showLoginModal = !!v },
     setRegisterModal(state, v) { state.showRegisterModal = !!v },
     setAddMealModal(state, v) { state.showAddMealModal = !!v },
-
     setSearchQuery(state, q) { state.searchQuery = q || '' },
     setSuggestedMeal(state, meal) { state.suggestedMeal = meal || null }
+  },
+
+  actions: {
+    async registerUser({ commit }, { email, password }) {
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+        const user = userCredential.user
+        commit('setUser', { email: user.email, uid: user.uid })
+        alert('Kayıt başarılı!')
+      } catch (err) {
+        alert('Kayıt hatası: ' + err.message)
+      }
+    },
+
+    async loginUser({ commit }, { email, password }) {
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password)
+        const user = userCredential.user
+        commit('setUser', { email: user.email, uid: user.uid })
+        alert('Giriş başarılı!')
+      } catch (err) {
+        alert('Giriş hatası: ' + err.message)
+      }
+    },
+
+    async logoutUser({ commit }) {
+      await signOut(auth)
+      commit('logoutUser')
+      alert('Çıkış yapıldı!')
+    },
+
+
+    async addMeal({ state, dispatch }, meal) {
+      if (!state.loggedInUser) throw new Error('Giriş yapılmamış.')
+      await addDoc(collection(db, 'meals'), {
+        ...meal,
+        userEmail: state.loggedInUser.email
+      })
+      await dispatch('fetchMeals')
+    },
+
+    async fetchMeals({ state, commit }) {
+      if (!state.loggedInUser) return
+      const q = query(collection(db, 'meals'), where('userEmail', '==', state.loggedInUser.email))
+      const snapshot = await getDocs(q)
+      const meals = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+      commit('setMeals', meals)
+    },
+
+    async removeMeal({ dispatch }, mealId) {
+      await deleteDoc(doc(db, 'meals', mealId))
+      await dispatch('fetchMeals')
+    },
+
+    async toggleFavorite({ dispatch, state }, mealId) {
+      const meal = state.meals.find(m => m.id === mealId)
+      if (!meal) return
+      const ref = doc(db, 'meals', mealId)
+      await updateDoc(ref, { isFavorite: !meal.isFavorite })
+      await dispatch('fetchMeals')
+    }
   },
 
   getters: {
@@ -88,7 +104,6 @@ const store = createStore({
     currentUser: state => state.loggedInUser,
     getMealsByUser: state => (email) => state.meals.filter(m => m.userEmail === email),
     getFavoritesByUser: state => (email) => state.meals.filter(m => m.userEmail === email && m.isFavorite),
-
     loginModalVisible: state => state.showLoginModal,
     registerModalVisible: state => state.showRegisterModal,
     addMealModalVisible: state => state.showAddMealModal,
