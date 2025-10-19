@@ -18,7 +18,6 @@
         <label>Tarif (opsiyonel)</label>
         <textarea v-model="recipe" rows="3"></textarea>
 
-        <!-- Besin değerleri aynı hizada -->
         <div class="macros">
           <div class="macro">
             <label>Protein (g)</label>
@@ -42,6 +41,8 @@
           <button type="submit" class="primary">Ekle</button>
           <button type="button" @click="close" class="secondary">İptal</button>
         </div>
+
+        <p v-if="error" class="error">{{ error }}</p>
       </form>
     </div>
   </div>
@@ -59,6 +60,7 @@ const recipe = ref('')
 const protein = ref(0)
 const carbs = ref(0)
 const fat = ref(0)
+const error = ref('')
 
 const calories = computed(() => Math.round(protein.value * 4 + carbs.value * 4 + fat.value * 9))
 
@@ -76,15 +78,15 @@ function reset() {
   fat.value = 0
 }
 
-function onSubmit() {
+async function onSubmit() {
   const user = store.getters.currentUser
   if (!user) {
     store.commit('setAddMealModal', false)
     store.commit('setLoginModal', true)
     return
   }
+
   const meal = {
-    id: Date.now(),
     name: name.value,
     mealType: mealType.value,
     recipe: recipe.value,
@@ -92,13 +94,25 @@ function onSubmit() {
     carbs: carbs.value,
     fat: fat.value,
     calories: calories.value,
-    isFavorite: false, 
+    isFavorite: false,
     userEmail: user.email
   }
-  store.commit('addMeal', meal)
-  store.commit('setAddMealModal', false)
-  reset()
+
+  try {
+    await store.dispatch('addMeal', meal) 
+    store.commit('setAddMealModal', false)
+    reset()
+  } catch (err) {
+    console.error('Yemek ekleme hatası:', err)
+    error.value = 'Yemek eklenemedi, lütfen tekrar deneyin.'
+  }
 }
 </script>
 
-
+<style>
+.error {
+  color: #e11d48;
+  margin-top: 8px;
+  font-size: 14px;
+}
+</style>
